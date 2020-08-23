@@ -30,3 +30,14 @@ struct NetworkImpl : torch::nn::SequentialImpl
     };
 };
 TORCH_MODULE(Network);
+
+struct BN_Relu_ConvImpl : torch::nn::SequentialImpl {
+    BN_Relu_ConvImpl(const size_t& CHANNEL_IN, const size_t& CHANNEL_OUT, const size_t& KERNEL, const float& DROPOUT) {
+        using namespace torch::nn;
+        push_back(BatchNorm2d(CHANNEL_IN));
+        push_back(Functional(torch::relu));
+        push_back(Conv2d(Conv2dOptions(CHANNEL_IN, CHANNEL_OUT, KERNEL).padding(1).bias(true)));
+        if (DROPOUT > 0.0f) push_back(Dropout(DROPOUT));
+    }
+};
+TORCH_MODULE(BN_Relu_Conv);
