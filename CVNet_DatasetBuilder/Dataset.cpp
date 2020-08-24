@@ -36,7 +36,7 @@ auto Dataset::get_image_from_directory(
         cv::resize(aux, aux, cv::Size(CmdLineOpt::image_size, CmdLineOpt::image_size));
         cv::split(aux, rgb);
         //---------------------------------------------------------------------
-        auto m_images = torch::zeros({ 3,64,64 }, torch::kByte);
+        auto m_images = torch::zeros({ 3,CmdLineOpt::image_size,CmdLineOpt::image_size }, torch::kByte);
         m_images[0] = torch::from_blob(rgb[0].data, { CmdLineOpt::image_size, CmdLineOpt::image_size }, torch::kByte);
         m_images[1] = torch::from_blob(rgb[1].data, { CmdLineOpt::image_size, CmdLineOpt::image_size }, torch::kByte);
         m_images[2] = torch::from_blob(rgb[2].data, { CmdLineOpt::image_size, CmdLineOpt::image_size }, torch::kByte);
