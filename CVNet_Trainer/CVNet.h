@@ -3,7 +3,7 @@
 
 struct NetworkImpl : torch::nn::SequentialImpl
 {
-    NetworkImpl() {
+    NetworkImpl(...) {
         using namespace torch::nn;
         // Layer 1
         push_back(Conv2d(Conv2dOptions(3, 32, 3)));

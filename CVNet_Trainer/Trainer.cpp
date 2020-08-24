@@ -34,12 +34,27 @@ Trainer::Trainer():
 	auto target_train = _target.slice(0, 0, N);
 	auto target_test = _target.slice(0, N + 1);
 
+	if (CmdLineOpt::overwrite) {
+		try {
+			torch::load(NET, "model.pt");
+		}
+		catch (...) {
+			std::cout << "MODEL Not Found... OVERWRITE ignored!." << std::endl;
+		}
+	}
 
+	auto best_result = Test(image_test, target_test);
 	for (int i = 0; i < CmdLineOpt::epoch; i++)
 	{
+
 		Train(i, optimizer, image_train, target_train);
 		Test(image_train, target_train); //Testeo sobre lo que va entrenado.
-		Test(image_test, target_test);	 //Testeo LOTE que no aprende la RED.
+
+		auto result = Test(image_test, target_test); //Testeo LOTE que no aprende la RED.
+		if (result > best_result) {
+			torch::save(NET, "model.pt");
+			best_result = result;
+		}
 	}
 
 }

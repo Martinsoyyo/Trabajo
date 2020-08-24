@@ -98,7 +98,8 @@ struct DenseNetImpl : torch::nn::Module {
         }
 
         // Final batch norm
-        features->push_back("norm5", torch::nn::BatchNorm2d(num_features));
+        features->push_back("norm5",BatchNorm2d(num_features));
+       
         // Linear layer
         classifier = Linear(num_features, num_classes);
 
@@ -113,6 +114,8 @@ struct DenseNetImpl : torch::nn::Module {
 
         out = out.view({ features.size(0), -1 });
         out = this->classifier->forward(out);
+
+        out = torch::log_softmax(out, 1);
         return out;
     };
 
