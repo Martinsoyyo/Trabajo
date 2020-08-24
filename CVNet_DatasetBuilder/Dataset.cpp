@@ -33,13 +33,13 @@ auto Dataset::get_image_from_directory(
         // Pre-tratamiento de cada imagen con OpenCV.
         cv::Mat aux = cv::imread(PATH + DSEP + filename);
         std::vector<cv::Mat> rgb;
-        cv::resize(aux, aux, cv::Size(64, 64));
+        cv::resize(aux, aux, cv::Size(CmdLineOpt::image_size, CmdLineOpt::image_size));
         cv::split(aux, rgb);
         //---------------------------------------------------------------------
         auto m_images = torch::zeros({ 3,64,64 }, torch::kByte);
-        m_images[0] = torch::from_blob(rgb[0].data, { 64, 64 }, torch::kByte);
-        m_images[1] = torch::from_blob(rgb[1].data, { 64, 64 }, torch::kByte);
-        m_images[2] = torch::from_blob(rgb[2].data, { 64, 64 }, torch::kByte);
+        m_images[0] = torch::from_blob(rgb[0].data, { CmdLineOpt::image_size, CmdLineOpt::image_size }, torch::kByte);
+        m_images[1] = torch::from_blob(rgb[1].data, { CmdLineOpt::image_size, CmdLineOpt::image_size }, torch::kByte);
+        m_images[2] = torch::from_blob(rgb[2].data, { CmdLineOpt::image_size, CmdLineOpt::image_size }, torch::kByte);
 
         IMG.push_back(m_images);
     }
