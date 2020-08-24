@@ -36,7 +36,7 @@ struct BN_Relu_ConvImpl : torch::nn::SequentialImpl {
         using namespace torch::nn;
         push_back(BatchNorm2d(CHANNEL_IN));
         push_back(Functional(torch::relu));
-        push_back(Conv2d(Conv2dOptions(CHANNEL_IN, CHANNEL_OUT, KERNEL).padding(1).bias(true)));
+        push_back(Conv2d(Conv2dOptions(CHANNEL_IN, CHANNEL_OUT, KERNEL).stride(1).padding(1).bias(true)));
         if (DROPOUT > 0.0f) push_back(Dropout(DROPOUT));
     }
 };

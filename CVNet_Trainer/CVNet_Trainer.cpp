@@ -2,6 +2,7 @@
 #include "cmdlineopt.h"
 #include "Trainer.h"
 #include "CVNet.h"
+#include "DenseNet.h"
 
 
 int main(int argc, const char* argv[]) {
@@ -10,7 +11,6 @@ int main(int argc, const char* argv[]) {
         // --path=C:\Repositories\CementCrack\Prueba --prefix=64x64 --size=64 --verbose 
         CmdLineOpt::CmdLineOpt(argc, argv);
 
-        
         Trainer TRAINER;
 
         return 0;
