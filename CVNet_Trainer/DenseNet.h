@@ -70,7 +70,7 @@ struct DenseNetImpl : torch::nn::Module {
     DenseNetImpl(
         int64_t num_classes,
         int64_t growth_rate,
-        std::vector<int64_t> block_config,
+        std::vector<uint32_t> block_config,
         int64_t num_init_features,
         int64_t bn_size,
         float drop_rate)

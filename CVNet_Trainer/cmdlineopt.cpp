@@ -4,7 +4,7 @@
 namespace CmdLineOpt {
 
     int  epoch                  = 10;
-    int  batch_size             = 8;
+    int  batch_size             = 16;
     bool overwrite              = false;
     bool gpu                    = false;
     bool verbose                = false;
@@ -32,7 +32,7 @@ namespace CmdLineOpt {
                 .add_options()
                 ("h,help", "Print help")
                 ("GPU", "Habilita en uso de la GPU, si existe.", cxxopts::value<bool>(gpu))
-                ("b,batch_size", "Numero de imagenes que entrena de manera simultanea.", cxxopts::value<int>(batch_size))
+                ("b,batch_size", "Numero de imagenes que entrena de manera simultanea. [BATCH SIZE]", cxxopts::value<int>(batch_size))
                 ("p,path", "Direccion donde se encuentran las IMAGENES", cxxopts::value<std::string>(dataset_path))
                 ("prefix", "Prefijo para los nombres de los archivos de dataset '*.tensor' (ej. 'PREFIJO_TRAIN_IMAGES.tensor'", cxxopts::value<std::string>(dataset_prefix))
                 ("v,verbose", "Informacion detallada mientras se ejecuta.", cxxopts::value<bool>(verbose))
@@ -47,15 +47,14 @@ namespace CmdLineOpt {
                 ;
 
             auto result = options.parse(argc, argv);
-            if (result.count("train")) std::cout << "% del DATASET que se usa para entrenamiento. <" << percent_to_train << "%>" << std::endl;
-            if (result.count("epoch")) std::cout << "Numero de pasadas por el Lote de entrenamiento. <" << epoch << ">" << std::endl;
-            if (result.count("GPU")) std::cout << "Utiliza la GPU, si hay alguna disponible. <ON>" << std::endl;
-            if (result.count("batch_size")) std::cout << "Imagenes por Lote. <" << batch_size << ">" << std::endl;
-            if (result.count("verbose")) std::cout << "Informacion detallada mientras se ejecuta. <ON>" << std::endl;
-            if (result.count("path")) std::cout << "Direccion donde busca Imagenes. <" << dataset_path << ">" << std::endl;
-            if (result.count("size")) std::cout << "Las Imagenes del tensor tienen dimension <" << image_size << "," << image_size << ">" << std::endl;
-            if (result.count("overwrite")) std::cout << "Carga modelo de la RED y trabaja desde donde se dejo <ON>" << std::endl;
-            if (result.count("growth_rate")) std::cout << "growth_rate de la DenseNet. <" << growth_rate << ">" << std::endl;
+            if (result.count("train")) std::cout << "[TRAINNING PERCENTAGE] " << percent_to_train << "%" << std::endl;
+            if (result.count("epoch")) std::cout << "[EPOCH] " << epoch << std::endl;
+            if (result.count("GPU")) std::cout << "[GPU] <ON>" << std::endl;
+            if (result.count("batch_size")) std::cout << "[BATCH SIZE] " << batch_size << std::endl;
+            if (result.count("verbose")) std::cout << "[VERBOSE] ON" << std::endl;
+            if (result.count("path")) std::cout << "[IMAGE PATH] " << dataset_path << "" << std::endl;
+            if (result.count("overwrite")) std::cout << "[LOAD MODEL] ON" << std::endl;
+            if (result.count("growth_rate")) std::cout << "[GROWTH_RATE] " << growth_rate << std::endl;
 
             if (result.count("modules")) {
                 std::cout << "Numero de Etapas en cada capa de la DenseNet <";
