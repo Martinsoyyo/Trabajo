@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <tchar.h>
 #include <stdio.h>
+#include <chrono>
 
 #include <torch/torch.h>
 #include <torch/script.h>
