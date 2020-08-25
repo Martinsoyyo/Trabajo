@@ -2,6 +2,7 @@
 #include "cmdlineopt.h"
 #include "Trainer.h"
 #include "CVNet.h"
+#include "DenseNet.h"
 
 
 int main(int argc, const char* argv[]) {

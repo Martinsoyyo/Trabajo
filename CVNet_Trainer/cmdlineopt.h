@@ -8,6 +8,7 @@ namespace CmdLineOpt {
 	extern int  batch_size;
 	extern bool gpu;
 	extern bool verbose;
+	extern bool overwrite;
 	extern int image_size;
 	extern float percent_to_train;
 	extern std::string dataset_path;

@@ -5,6 +5,7 @@ namespace CmdLineOpt {
 
     int  epoch                  = 10;
     int  batch_size             = 32;
+    bool overwrite              = false;
     bool gpu                    = false;
     bool verbose                = false;
     int image_size              = 64;
@@ -34,18 +35,19 @@ namespace CmdLineOpt {
                 ("v,verbose", "Informacion detallada mientras se ejecuta.", cxxopts::value<bool>(verbose))
                 ("e,epoch", "Numero de pasadas por el Lote de entrenamiento.", cxxopts::value<int>(epoch))
                 ("t,train", "% del DATASET que se usa para entrenamiento.", cxxopts::value<float>(percent_to_train))
-
+                ("o,overwrite", "carga el modelo de la RED si lo encuentra.", cxxopts::value<bool>(overwrite))
                 ;
 
             auto result = options.parse(argc, argv);
-            if (result.count("epoch")) std::cout << "% del DATASET que se usa para entrenamiento. <" << percent_to_train << "%>" << std::endl;
+            if (result.count("train")) std::cout << "% del DATASET que se usa para entrenamiento. <" << percent_to_train << "%>" << std::endl;
             if (result.count("epoch")) std::cout << "Numero de pasadas por el Lote de entrenamiento. <" << epoch << ">" << std::endl;
             if (result.count("GPU")) std::cout << "Utiliza la GPU, si hay alguna disponible. <ON>" << std::endl;
-            if (result.count("batch_size")) std::cout << "Imagenes por Lote :" << batch_size << ">" << std::endl;
+            if (result.count("batch_size")) std::cout << "Imagenes por Lote. <" << batch_size << ">" << std::endl;
             if (result.count("verbose")) std::cout << "Informacion detallada mientras se ejecuta. <ON>" << std::endl;
             if (result.count("path")) std::cout << "Direccion donde busca Imagenes. <" << dataset_path << ">" << std::endl;
             if (result.count("size")) std::cout << "Las Imagenes del tensor tienen dimension <" << image_size << "," << image_size << ">" << std::endl;
- 
+            if (result.count("overwrite")) std::cout << "Carga modelo de la RED y trabaja desde donde se dejo <ON>" << std::endl;
+
             if (result.count("dataset_prefix")) {
                 dataset_prefix.append("_");
                 std::cout << "Prefijo Dataset. <" << dataset_prefix << ">" << std::endl;

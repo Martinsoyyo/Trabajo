@@ -44,5 +44,8 @@
     <ClInclude Include="cmdlineopt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DenseNet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

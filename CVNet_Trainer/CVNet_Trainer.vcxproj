@@ -169,6 +169,7 @@
     <ClInclude Include="cmdlineopt.h" />
     <ClInclude Include="CVNet.h" />
     <ClInclude Include="cxxopts.hpp" />
+    <ClInclude Include="DenseNet.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Trainer.h" />
   </ItemGroup>
