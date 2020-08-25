@@ -4,11 +4,11 @@
 Trainer::Trainer(): 
 	NET(
 		2, //num_classes  
-		16,//growth_rate
-		std::vector<int64_t> { 3, 3, 3, 3 },//block_config
+		CmdLineOpt::growth_rate,//growth_rate
+		CmdLineOpt::densenet_params,//block_config
 		64,//num_init_features
 		4, //bn_size
-		0.345f //drop_rate
+		CmdLineOpt::drop_rate //drop_rate
 	)
 {
 	torch::load(_image, IMG_FNAME(CmdLineOpt::dataset_path, CmdLineOpt::dataset_prefix));
@@ -34,6 +34,7 @@ Trainer::Trainer():
 	auto target_train = _target.slice(0, 0, N);
 	auto target_test = _target.slice(0, N + 1);
 
+	// Carga la RED si existe.
 	if (CmdLineOpt::overwrite) {
 		try {
 			torch::load(NET, "model.pt");
@@ -43,10 +44,21 @@ Trainer::Trainer():
 		}
 	}
 
-	auto best_result = Test(image_test, target_test);
+	// Mido el tiempo que tarda en analizar una imagen en promedio.
+	std::chrono::time_point<std::chrono::system_clock> start, end;
+	start = std::chrono::system_clock::now();
+
+		auto best_result = Test(image_test, target_test);
+
+	end = std::chrono::system_clock::now();
+	std::chrono::duration<double> elapsed_seconds = end - start;
+	std::time_t end_time = std::chrono::system_clock::to_time_t(end);
+
+	std::cout << "Tiempo de analisis por cada imagen: " << elapsed_seconds.count()/ image_test.size(0) << "s\n";
+
+	// Empieza el entrenamiento.
 	for (int i = 0; i < CmdLineOpt::epoch; i++)
 	{
-
 		Train(i, optimizer, image_train, target_train);
 		Test(image_train, target_train); //Testeo sobre lo que va entrenado.
 
