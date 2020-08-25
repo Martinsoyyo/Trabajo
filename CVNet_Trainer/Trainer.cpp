@@ -4,11 +4,11 @@
 Trainer::Trainer(): 
 	NET(
 		2, //num_classes  
-		16,//growth_rate
-		std::vector<int64_t> { 3, 3, 3, 3 },//block_config
+		CmdLineOpt::growth_rate,//growth_rate
+		CmdLineOpt::densenet_params,//block_config
 		64,//num_init_features
 		4, //bn_size
-		0.345f //drop_rate
+		CmdLineOpt::drop_rate //drop_rate
 	)
 {
 	torch::load(_image, IMG_FNAME(CmdLineOpt::dataset_path, CmdLineOpt::dataset_prefix));
