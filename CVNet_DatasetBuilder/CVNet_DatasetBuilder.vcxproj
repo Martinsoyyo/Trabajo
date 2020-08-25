@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
-    <ProjectGuid>{C02B6BBA-CAB7-4AA4-9A13-DD427E79FF84}</ProjectGuid>
+    <ProjectGuid>{37254FB9-D6CD-4CDB-B538-0F51546AFEFD}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>CVNetDatasetBuilder</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
