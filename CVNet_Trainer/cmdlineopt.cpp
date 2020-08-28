@@ -4,8 +4,8 @@
 namespace CmdLineOpt {
 
     int  epoch                  = 10;
-    int  batch_size             = 16;
-    bool overwrite              = false;
+    int  batch_size             = 32;
+    bool overwrite              = true;
     bool gpu                    = false;
     bool verbose                = false;
     float percent_to_train      = 0.75f;
@@ -42,8 +42,6 @@ namespace CmdLineOpt {
 
                 ("m,modules", "Cantidad de capas internas en cada estadio de la Densenet.", cxxopts::value< std::vector<uint32_t>>(densenet_params))
                 ("g,growth_rate", "Cantidad de capas que sa van agregando en cada etapa de la Densenet.", cxxopts::value< std::vector<uint32_t>>(densenet_params))
-                ("d,drop_rate", "Drop_rate.", cxxopts::value<bool>(overwrite))
-
                 ;
 
             auto result = options.parse(argc, argv);
@@ -53,7 +51,7 @@ namespace CmdLineOpt {
             if (result.count("batch_size")) std::cout << "[BATCH SIZE] " << batch_size << std::endl;
             if (result.count("verbose")) std::cout << "[VERBOSE] ON" << std::endl;
             if (result.count("path")) std::cout << "[IMAGE PATH] " << dataset_path << "" << std::endl;
-            if (result.count("overwrite")) std::cout << "[LOAD MODEL] ON" << std::endl;
+            if (result.count("overwrite")) std::cout << "[LOAD MODEL] " << overwrite << std::endl;
             if (result.count("growth_rate")) std::cout << "[GROWTH_RATE] " << growth_rate << std::endl;
 
             if (result.count("modules")) {

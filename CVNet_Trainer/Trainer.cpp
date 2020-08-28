@@ -8,7 +8,7 @@ Trainer::Trainer():
 		CmdLineOpt::densenet_params,//block_config
 		64,//num_init_features
 		4, //bn_size
-		CmdLineOpt::drop_rate //drop_rate
+		0 //drop_rate
 	)
 {
 	torch::load(_image, IMG_FNAME(CmdLineOpt::dataset_path, CmdLineOpt::dataset_prefix));
@@ -23,7 +23,9 @@ Trainer::Trainer():
 		NET->to(DeviceType);
 	};
 
-	torch::optim::Adam optimizer(NET->parameters(), torch::optim::AdamOptions(2e-4).beta1(0.5));
+	torch::optim::Adam optimizer(NET->parameters(), torch::optim::AdamOptions(1e-5).weight_decay(0.005).beta1(0.9).beta2(0.999));
+	
+	std::cout << NET << std::endl;
 
 	// Referencias que apuntan a la zona de testeo y entrenamiento.
 	const auto N = int64_t(CmdLineOpt::percent_to_train * _image.size(0));
@@ -38,10 +40,13 @@ Trainer::Trainer():
 	if (CmdLineOpt::overwrite) {
 		try {
 			torch::load(NET, "model.pt");
+			std::cout << "MODEL Loaded..." << std::endl;
 		}
 		catch (...) {
 			std::cout << "MODEL Not Found... OVERWRITE ignored!." << std::endl;
 		}
+	} else{
+		std::cout << "MODEL Created..." << std::endl;
 	}
 
 	// Mido el tiempo que tarda en analizar una imagen en promedio.
@@ -82,6 +87,7 @@ void Trainer::Train(const uint32_t& EPOCH, torch::optim::Optimizer& OPT, torch::
 	for (uint32_t idx = 0; idx < IMAGE.size(); idx++){
 		OPT.zero_grad();
 			auto prediction = NET->forward(IMAGE[idx].to(at::kFloat).div_(255));
+			//auto loss = torch::binary_cross_entropy(prediction, TARGET[idx].to(at::kLong));
 			auto loss = torch::nll_loss(prediction, TARGET[idx].to(at::kLong));
 			loss.backward();
 		OPT.step();

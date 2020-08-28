@@ -4,7 +4,6 @@ namespace CmdLineOpt {
 
 	void CmdLineOpt(int argc, const char* argv[]);
 
-	extern float drop_rate;
 	extern uint32_t growth_rate;
 	extern std::vector<uint32_t> densenet_params;
 

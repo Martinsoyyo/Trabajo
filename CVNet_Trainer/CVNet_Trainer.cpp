@@ -10,6 +10,11 @@ int main(int argc, const char* argv[]) {
         // Opciones de línea de comando
         // --path=C:\Repositories\CementCrack\Prueba --prefix=64x64 --size=64 --verbose 
         CmdLineOpt::CmdLineOpt(argc, argv);
+        
+        //auto ui = torch::randn({ 1,3, 64,64 });
+        //Network3 net;
+
+        //std::cout << net->forward(ui);
 
         Trainer TRAINER;
 

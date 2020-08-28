@@ -16,7 +16,7 @@ public:
 	void Train(const uint32_t& EPOCH, torch::optim::Optimizer& OPT, torch::Tensor& IMG, torch::Tensor& TRG);
 
 private:
-	//Network NET;
-	DenseNet NET;
+	Network3 NET;
+	//DenseNet NET;
 	torch::Tensor _image, _target; 
 };

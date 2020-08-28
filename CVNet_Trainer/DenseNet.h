@@ -8,7 +8,7 @@ struct _DenseLayerImpl : SequentialImpl {
         int64_t num_input_features,
         int64_t growth_rate,
         int64_t bn_size,
-        float drop_rate)
+        float drop_rate = 0)
     {
         push_back("norm1", BatchNorm2d(num_input_features));
         push_back("relu1", Functional(torch::relu));
@@ -48,7 +48,7 @@ struct _DenseBlockImpl : SequentialImpl {
 };
 TORCH_MODULE(_DenseBlock);
 
-struct _TransitionImpl : torch::nn::SequentialImpl {
+struct _TransitionImpl : SequentialImpl {
     _TransitionImpl(int64_t num_input_features, int64_t num_output_features) {
         push_back("norm", BatchNorm2d(num_input_features));
         push_back("relu ", Functional(torch::relu));
