@@ -17,7 +17,7 @@ namespace CmdLineOpt {
     std::string dataset_path    = "";
     std::string dataset_prefix  = "";
 
-    void CmdLineOpt::CmdLineOpt(int argc, const char* argv[]) {
+    void CmdLineOpt(int argc, const char* argv[]) {
         try {
             cxxopts::Options options(argv[0], " - example command line options");
 
@@ -62,7 +62,7 @@ namespace CmdLineOpt {
                 std::cout << ">" << std::endl;
             };
 
-            if (result.count("dataset_prefix")) {
+            if (result.count("prefix")) {
                 dataset_prefix.append("_");
                 std::cout << "Prefijo Dataset. <" << dataset_prefix << ">" << std::endl;
             }
