@@ -33,12 +33,17 @@ Trainer::Trainer():
 
 	// Como todo el programa se basa en estos tensores, y solo uso "vistas" a ellos,
 	// esto deberia ser suficiente para poner todo el programa en GPU, VERIFICAR!
-	if (CmdLineOpt::gpu) { 
-		torch::Device DeviceType = (torch::cuda::is_available() ? torch::kCUDA : torch::kCPU);
+	torch::Device DeviceType = (torch::cuda::is_available() ? torch::kCUDA : torch::kCPU);
+		// NOTA TEMPORARIA. Sacar de esta sección
+    std::cout << "Device: ";
+    if (DeviceType == torch::kCUDA) cout << "CUDA"; else cout << "CPU"; cout << endl;
+
+	if (CmdLineOpt::gpu) {
+	    cout <<  "Using CUDA GPU" << endl;
 		_image  = _image.to(DeviceType);
 		_target = _target.to(DeviceType);
 		NET->to(DeviceType);
-	};
+	} else cout <<  "Using CPU" << endl;;
 
     // Según la versión de Pytorch utilizada. Habría que ver cómo hacerlo en tiempo de compilación
 	//torch::optim::Adam optimizer(NET->parameters(), torch::optim::AdamOptions(2e-4).beta1(0.5));
