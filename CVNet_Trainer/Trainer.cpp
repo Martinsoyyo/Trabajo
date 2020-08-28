@@ -1,6 +1,16 @@
 #include "pch.h"
 #include "Trainer.h"
 
+using namespace std;
+// es un espacio de nombres estandar muy usadado. Se abrevian comandos muy repetidos. No hay posibilidad real de confundirlo con otro entorno (espacio de nombres)
+
+constexpr auto DSEP="/";
+// Estandar de separador de carpetas compatible Win y Linux que puede convivir con la barra invertida de windows
+
+#define IMG_FNAME(ROOT_FOLDER,PREFIX_FN) ROOT_FOLDER + DSEP + PREFIX_FN + "IMAGES.tensor"
+#define TRG_FNAME(ROOT_FOLDER,PREFIX_FN) ROOT_FOLDER + DSEP + PREFIX_FN + "TARGET.tensor"
+// ^-- Son inherentes a la implementación, el header debería casi exclusivamente a definición e interfaz con los usuarios/clientes
+
 Trainer::Trainer(): 
 	NET(
 		2, //num_classes  
@@ -11,19 +21,28 @@ Trainer::Trainer():
 		CmdLineOpt::drop_rate //drop_rate
 	)
 {
-	torch::load(_image, IMG_FNAME(CmdLineOpt::dataset_path, CmdLineOpt::dataset_prefix));
-	torch::load(_target, TRG_FNAME(CmdLineOpt::dataset_path, CmdLineOpt::dataset_prefix));
+
+    try {
+		cout << "Cargando " << IMG_FNAME(CmdLineOpt::dataset_path, CmdLineOpt::dataset_prefix) << endl;
+	    torch::load(_image, IMG_FNAME(CmdLineOpt::dataset_path, CmdLineOpt::dataset_prefix));
+    	torch::load(_target, TRG_FNAME(CmdLineOpt::dataset_path, CmdLineOpt::dataset_prefix));
+    } catch(exception &e) {
+        cerr << "Trainer::Trainer() - torch::load" << endl << e.what();
+        throw(e);
+    } 
 
 	// Como todo el programa se basa en estos tensores, y solo uso "vistas" a ellos,
 	// esto deberia ser suficiente para poner todo el programa en GPU, VERIFICAR!
-	if (CmdLineOpt::gpu) {
+	if (CmdLineOpt::gpu) { 
 		torch::Device DeviceType = (torch::cuda::is_available() ? torch::kCUDA : torch::kCPU);
 		_image  = _image.to(DeviceType);
 		_target = _target.to(DeviceType);
 		NET->to(DeviceType);
 	};
 
-	torch::optim::Adam optimizer(NET->parameters(), torch::optim::AdamOptions(2e-4).beta1(0.5));
+    // Según la versión de Pytorch utilizada. Habría que ver cómo hacerlo en tiempo de compilación
+	//torch::optim::Adam optimizer(NET->parameters(), torch::optim::AdamOptions(2e-4).beta1(0.5));
+	torch::optim::Adam optimizer(NET->parameters(), torch::optim::AdamOptions(2e-4).betas(std::make_tuple (0.5, 0.5)));
 
 	// Referencias que apuntan a la zona de testeo y entrenamiento.
 	const auto N = int64_t(CmdLineOpt::percent_to_train * _image.size(0));
@@ -35,9 +54,9 @@ Trainer::Trainer():
 	auto target_test = _target.slice(0, N + 1);
 
 	// Carga la RED si existe.
-	if (CmdLineOpt::overwrite) {
+	if (CmdLineOpt::overwrite) { // NOTA TEMPORARIA. La idea era que el overwrite IGNORE el archivos. Revisar y poner en común la semántica de las opciones.
 		try {
-			torch::load(NET, "model.pt");
+			torch::load(NET, "model.pt"); // NOTA TEMPORARIA. Considerar el control de que el modelo cargado coincida con el del código.
 		}
 		catch (...) {
 			std::cout << "MODEL Not Found... OVERWRITE ignored!." << std::endl;
@@ -86,7 +105,7 @@ void Trainer::Train(const uint32_t& EPOCH, torch::optim::Optimizer& OPT, torch::
 			loss.backward();
 		OPT.step();
 
-		std::printf("\rTrain Epoch: %ld [%5ld/%5ld] Loss: %.4f ",
+		std::printf("\rTrain Epoch: %u [%5u/%5lu] Loss: %.4f ",
 			EPOCH, idx * CmdLineOpt::batch_size,
 			IMG.size(0),
 			loss.template item<float>());
