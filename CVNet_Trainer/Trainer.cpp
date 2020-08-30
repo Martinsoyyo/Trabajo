@@ -31,7 +31,6 @@ Trainer::Trainer():
     }
     
 	// Como todo el programa se basa en estos tensores, y solo uso "vistas" a ellos,
-	// esto deberia ser suficiente para poner todo el programa en GPU, VERIFICAR!
 	torch::Device DeviceType = (torch::cuda::is_available() ? torch::kCUDA : torch::kCPU);
 		// NOTA TEMPORARIA. Sacar de esta sección
     std::cout << "Device: ";
