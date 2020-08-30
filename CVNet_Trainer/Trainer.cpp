@@ -98,6 +98,9 @@ Trainer::Trainer():
 		}
 	}
 
+	NET->to(torch::kCPU);
+	torch::save(NET, "model_cpu.pt");
+	std::cout << "Best Test Batch: " << best_result << std::endl;
 }
 
 void Trainer::Train(const uint32_t& EPOCH, torch::optim::Optimizer& OPT, torch::Tensor& IMG, torch::Tensor& TRG) {
