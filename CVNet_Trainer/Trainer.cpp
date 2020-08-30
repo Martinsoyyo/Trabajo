@@ -98,9 +98,14 @@ Trainer::Trainer():
 		}
 	}
 
-	NET->to(torch::kCPU);
-	torch::save(NET, "model_cpu.pt");
 	std::cout << "Best Test Batch: " << best_result << std::endl;
+	
+	// Recupero la red que se entrena con GPU y la guardo en un formato que entienda la CPU, sino no la puedo recuperar en Windows.
+	if (DeviceType == torch::kCUDA) {
+		torch::load(NET, "model.pt");
+		NET->to(torch::kCPU);
+		torch::save(NET, "model.pt");
+	};
 }
 
 void Trainer::Train(const uint32_t& EPOCH, torch::optim::Optimizer& OPT, torch::Tensor& IMG, torch::Tensor& TRG) {
