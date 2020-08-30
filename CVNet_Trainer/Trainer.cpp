@@ -102,9 +102,10 @@ Trainer::Trainer():
 	
 	// Recupero la red que se entrena con GPU y la guardo en un formato que entienda la CPU, sino no la puedo recuperar en Windows.
 	if (DeviceType == torch::kCUDA) {
+		std::cout << "Adaptando de GPU a CPU" << std::endl;
 		torch::load(NET, "model.pt");
 		NET->to(torch::kCPU);
-		torch::save(NET, "model.pt");
+		torch::save(NET, "model_cpu.pt");
 	};
 }
 
