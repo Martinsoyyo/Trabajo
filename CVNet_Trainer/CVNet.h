@@ -31,17 +31,19 @@ struct NetworkImpl : torch::nn::SequentialImpl
 };
 TORCH_MODULE(Network);
 
-
-const auto drop_rate = 0.1f;
 const uint32_t CHANNEL_IN = 3;
-const uint32_t LINEAR = 2;
-const uint32_t OUT_CLASSES = 2;
-const std::vector<uint32_t> FILTERS = { CHANNEL_IN,32,32,32,32,32,LINEAR };
+const uint32_t CHANNEL_OUT= 2;
 
-struct Network3Impl : torch::nn::SequentialImpl
+struct OtraNetImpl : torch::nn::SequentialImpl
 {
-    Network3Impl(...) {
+    OtraNetImpl(std::vector<uint32_t>& PARAMS, const float& DROP_RATE) {
         using namespace torch::nn;
+
+        // Armo vector de filtros de tal manera que sea del tipo {CH_in, #params0, #params1,...,CH_out};
+        std::vector<uint32_t> FILTERS;
+        FILTERS.push_back(CHANNEL_IN);
+        for (auto IT : PARAMS) FILTERS.push_back(IT);
+        FILTERS.push_back(CHANNEL_OUT);
 
         size_t i = 0;
         do {
@@ -49,14 +51,13 @@ struct Network3Impl : torch::nn::SequentialImpl
             push_back(BatchNorm2d(FILTERS[i + 1]));
             push_back(MaxPool2d(2));
             push_back(Functional(torch::relu));
-            if (drop_rate > 0.0f) push_back(Dropout(drop_rate));
+            if (DROP_RATE > 0.0f) push_back(Dropout(DROP_RATE));
 
             i++;
         } while (i != FILTERS.size() - 1);
 
         push_back(Flatten());
-        //push_back(Linear(LINEAR, OUT_CLASSES));
         push_back(LogSoftmax(1));
     }
 };
-TORCH_MODULE(Network3);
+TORCH_MODULE(OtraNet);

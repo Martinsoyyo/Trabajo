@@ -4,12 +4,16 @@ namespace CmdLineOpt {
 
 	void CmdLineOpt(int argc, const char* argv[]);
 
+	extern float drop_rate;
 	extern uint32_t growth_rate;
-	extern std::vector<uint32_t> densenet_params;
+	extern std::vector<uint32_t> params;
+	
+	enum TYPE { DENSENET, OTRANET };
+	extern int type_net;
 
 	extern int  epoch;
 	extern int  batch_size;
-	extern bool gpu;
+	extern bool cpu;
 	extern bool verbose;
 	extern bool overwrite;
 	extern float percent_to_train;
