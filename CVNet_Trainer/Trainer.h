@@ -63,7 +63,13 @@ void Trainer<NET>::foo() {
 	// torch::optim::Adam optimizer(NET->parameters(), torch::optim::AdamOptions(1e-5).weight_decay(0.005).beta1(0.9).beta2(0.999));
 	// Según la versión de Pytorch utilizada. Habría que ver cómo hacerlo en tiempo de compilación
 	//torch::optim::Adam optimizer(NET->parameters(), torch::optim::AdamOptions(2e-4).beta1(0.5));
-	torch::optim::Adam optimizer(_net->parameters(), torch::optim::AdamOptions(2e-4).betas(std::make_tuple(0.9, 0.995)));
+	torch::optim::Adam optimizer(
+		_net->parameters(),
+		torch::optim::AdamOptions(CmdLineOpt::learning_rate)
+		.betas(std::make_tuple(0.9, 0.995))
+		.eps(1e-8)
+		.weight_decay(0.01)
+	);
 
 	std::cout << _net << std::endl;
 
@@ -101,13 +107,27 @@ void Trainer<NET>::foo() {
 
 	std::cout << "Tiempo de analisis por cada imagen: " << elapsed_seconds.count() / image_test.size(0) << "s\n";
 
+
+	float rate = 0.001f;
 	// Empieza el entrenamiento.
 	for (int i = 0; i < CmdLineOpt::epoch; i++)
 	{
+
 		Train(i, optimizer, image_train, target_train);
 		Test(image_train, target_train);//Testeo sobre lo que va entrenado.
-
 		auto result = Test(image_test, target_test); //Testeo LOTE que no aprende la RED.
+		
+		for (auto& group : optimizer.param_groups())
+		{
+			if (group.has_options())
+			{
+				auto& options = static_cast<torch::optim::AdamOptions&>(group.options());
+				cout << "[ Learning_rate] " << options.lr() << endl;;
+				options.lr(options.lr() * (1.0 - rate));
+			}
+		}
+
+
 		if (result > best_result) {
 			torch::save(_net, "model.pt");
 			best_result = result;

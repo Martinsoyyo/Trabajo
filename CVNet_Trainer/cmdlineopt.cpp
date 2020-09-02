@@ -9,6 +9,7 @@ namespace CmdLineOpt {
     bool verbose                = false;
     float percent_to_train      = 0.75f;
     float drop_rate             = 0.145f;
+    float learning_rate         = 0.0001f;
 
     int type_net;
     std::string net_name;
@@ -40,7 +41,7 @@ namespace CmdLineOpt {
                 ("e,epoch", "Numero de pasadas por el Lote de entrenamiento.", cxxopts::value<int>(epoch))
                 ("t,train", "% del DATASET que se usa para entrenamiento.", cxxopts::value<float>(percent_to_train))
                 ("o,overwrite", "carga el modelo de la RED si lo encuentra.", cxxopts::value<bool>(overwrite))       
-
+                ("l,learning_rate", "Learning Rate.", cxxopts::value<float>(learning_rate))
                 ("g,growth_rate", "Cantidad de capas que sa van agregando en cada etapa. <DENSENET>", cxxopts::value<uint32_t>(growth_rate))
                 ("params", "Parametros de la RED.", cxxopts::value< std::vector<uint32_t>>(params))
                 ("d,drop_rate", "DropRate %", cxxopts::value<float>(drop_rate))
@@ -57,7 +58,8 @@ namespace CmdLineOpt {
             if (result.count("overwrite")) std::cout << "[LOAD MODEL] " << overwrite << std::endl;
             if (result.count("growth_rate")) std::cout << "[GROWTH_RATE] " << growth_rate << std::endl;
             if (result.count("drop")) std::cout << "[DROP_RATE] " << drop_rate << "%" << std::endl;
-            
+            if (result.count("learning_rate")) std::cout << "[LEARNING_RATE] " << learning_rate << std::endl;
+
             if (result["use"].as<std::string>() == "densenet") {
                 type_net = TYPE::DENSENET;
                 std::cout << "[DENSENET] " << std::endl;
