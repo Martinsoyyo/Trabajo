@@ -8,7 +8,7 @@ namespace CmdLineOpt {
 	extern uint32_t growth_rate;
 	extern std::vector<uint32_t> params;
 	
-	enum TYPE { DENSENET, OTRANET };
+	enum TYPE { DENSENET, OTRANET, PIRAMIDAL };
 	extern int type_net;
 
 	extern int  epoch;

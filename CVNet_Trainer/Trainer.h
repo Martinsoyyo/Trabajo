@@ -107,8 +107,7 @@ void Trainer<NET>::foo() {
 
 	std::cout << "Tiempo de analisis por cada imagen: " << elapsed_seconds.count() / image_test.size(0) << "s\n";
 
-
-	float rate = 0.001f;
+	float rate = 0.05f;
 	// Empieza el entrenamiento.
 	for (int i = 0; i < CmdLineOpt::epoch; i++)
 	{
