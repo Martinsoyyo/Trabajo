@@ -173,7 +173,7 @@
     <ClInclude Include="ModelSimpl.hpp" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Trainer.h" />
-    <ClInclude Include="VGG.h" />
+    <ClInclude Include="VGG.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Readme.md" />

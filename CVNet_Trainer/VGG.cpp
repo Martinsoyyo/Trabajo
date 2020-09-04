@@ -1,8 +1,7 @@
 #include "pch.h"
-#include "cmdlineopt.h"
 
-#include "VGG.h"
 #include "ModelSimpl.hpp"
+#include "VGG.hpp"
 
 torch::nn::Sequential makeLayers(
     const std::vector<int>& cfg,
@@ -12,14 +11,12 @@ torch::nn::Sequential makeLayers(
 
     for (const auto& V : cfg) {
         if (V <= -1)
-            seq->push_back(torch::nn::Functional(modelsimpl::max_pool2d, 2, 2));
+            seq->push_back(torch::nn::MaxPool2d(2));
         else {
-            seq->push_back(torch::nn::Conv2d(
-                torch::nn::Conv2dOptions(channels, V, 3).padding(1)));
-
-            if (batch_norm)
-                seq->push_back(torch::nn::BatchNorm2d(V));
-            seq->push_back(torch::nn::Functional(modelsimpl::relu_));
+            seq->push_back(torch::nn::Conv2d(torch::nn::Conv2dOptions(channels, V, 3).padding(1)));
+            if (batch_norm) seq->push_back(torch::nn::BatchNorm2d(V));
+            //seq->push_back(torch::nn::Functional(modelsimpl::relu_));
+            seq->push_back(torch::nn::Functional(torch::relu));
 
             channels = V;
         }
@@ -56,10 +53,10 @@ VGGImpl::VGGImpl(
     bool initialize_weights) {
     classifier = torch::nn::Sequential(
         torch::nn::Linear(512 * 7 * 7, 4096),
-        torch::nn::Functional(modelsimpl::relu_),
+        torch::nn::Functional(torch::relu),
         torch::nn::Dropout(),
         torch::nn::Linear(4096, 4096),
-        torch::nn::Functional(modelsimpl::relu_),
+        torch::nn::Functional(torch::relu),
         torch::nn::Dropout(),
         torch::nn::Linear(4096, num_classes));
 

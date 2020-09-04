@@ -47,10 +47,10 @@
     <ClInclude Include="DenseNet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="VGG.h">
+    <ClInclude Include="ModelSimpl.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ModelSimpl.hpp">
+    <ClInclude Include="VGG.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

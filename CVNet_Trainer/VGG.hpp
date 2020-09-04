@@ -1,5 +1,4 @@
 #pragma once
-#include "pch.h"
 
 struct VGGImpl : torch::nn::Module {
     torch::nn::Sequential features{ nullptr }, classifier{ nullptr };

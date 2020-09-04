@@ -3,7 +3,7 @@
 #include "Trainer.h"
 #include "CVNet.h"
 #include "DenseNet.h"
-#include "VGG.h"
+#include "VGG.hpp"
 
 
 struct _Dense0Impl : torch::nn::SequentialImpl {
@@ -81,17 +81,13 @@ int main(int argc, const char* argv[]) {
         // --path=C:\Repositories\CementCrack\Prueba --prefix=64x64 --size=64 --verbose 
         CmdLineOpt::CmdLineOpt(argc, argv);
         
-        //VGG16BNImpl NN(2);
-        //auto NN = _Dense2(
-        //    3, // RGB
-        //    4, // DENSENET DEPTH
-        //    8 // GROWTH
-        //);
-        //auto NN = _Dense1(5, 3, 12);
-        //auto ui = torch::randn({ 1,3, 64,64 });
+        //std::vector<uint32_t> VEC = { 22,33};
+        //OtraNet NN(VEC, 0.21f);
 
+        //auto ui = torch::randn({ 1,3, 64,64 });
         //std::cout << NN << std::endl;
-        //std::cout << NN.forward(ui).sizes() << std::endl;
+        //std::cout << NN->forward(ui).sizes() << std::endl;
+        //std::cout << NN->forward(ui).dtype() << std::endl;
 
         if (CmdLineOpt::type_net == CmdLineOpt::TYPE::DENSENET) {
             DenseNet NET(
@@ -114,13 +110,13 @@ int main(int argc, const char* argv[]) {
             Trainer<OtraNet> TRAINER(NET);
         }
         else if (CmdLineOpt::type_net == CmdLineOpt::TYPE::PIRAMIDAL) {
-          /*  _Dense2 NET(
-                CmdLineOpt::params,
-                CmdLineOpt::drop_rate
-            );*/
+            //_Dense2 NET(
+            //    CmdLineOpt::params,
+            //    CmdLineOpt::drop_rate
+            //);
 
-            VGG16BN NET(2);
-            Trainer<VGG16BN> TRAINER(NET);
+            //VGG11 NET(2);
+            //Trainer<VGG11> TRAINER(NET);
         }
         return 0;
     }
