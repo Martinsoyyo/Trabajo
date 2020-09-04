@@ -46,6 +46,12 @@ void Trainer<NET>::foo() {
 		throw(e);
 	}
 
+	cout << _image.sizes() << endl;
+	cout << _target.sizes() << endl;
+
+	cout << _image.dtype() << endl;
+	cout << _target.dtype() << endl;
+
 	// Como todo el programa se basa en estos tensores, y solo uso "vistas" a ellos,
 	torch::Device DeviceType = (torch::cuda::is_available() ? torch::kCUDA : torch::kCPU);
 	// NOTA TEMPORARIA. Sacar de esta sección
