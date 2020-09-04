@@ -12,9 +12,9 @@ struct _Dense0Impl : torch::nn::SequentialImpl {
     {
         using namespace torch::nn;
 
-        push_back(BatchNorm2d(CHANNEL_IN));
-        push_back(Functional(torch::relu));
         push_back(Conv2d(Conv2dOptions(CHANNEL_IN, CHANNEL_OUT, 3).stride(1).padding(1).bias(false)));
+        push_back(BatchNorm2d(CHANNEL_OUT));
+        push_back(Functional(torch::relu));
         if (DROP_RATE > 0.0f) push_back(Dropout(DROP_RATE));
     }
 

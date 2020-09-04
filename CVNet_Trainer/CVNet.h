@@ -31,6 +31,8 @@ struct NetworkImpl : torch::nn::SequentialImpl
 };
 TORCH_MODULE(Network);
 
+
+// USO: ! time ./CVNet_Trainer --path /content --prefix 64x64 --epoch 80 --batch 128 --use otranet --params 32,32,32,32,32 --drop_rate 0.25 --learning_rate 0.0025
 const uint32_t CHANNEL_IN = 3;
 const uint32_t CHANNEL_OUT= 2;
 
@@ -56,8 +58,8 @@ struct OtraNetImpl : torch::nn::SequentialImpl
             i++;
         } while (i != FILTERS.size() - 1);
 
-  //      push_back(Flatten());
-  //      push_back(LogSoftmax(1));
+        push_back(Flatten());
+        push_back(LogSoftmax(1));
     }
 };
 TORCH_MODULE(OtraNet);

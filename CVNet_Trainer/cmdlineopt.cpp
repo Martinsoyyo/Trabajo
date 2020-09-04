@@ -62,7 +62,7 @@ namespace CmdLineOpt {
 
             if (result["use"].as<std::string>() == "densenet") {
                 type_net = TYPE::DENSENET;
-                std::cout << "[DENSENET] " << std::endl;
+                std::cout << "[DENSENET] ";
                 std::cout << " <";
                 for (const auto& IT : params) {
                     std::cout << IT << " ";
@@ -72,7 +72,7 @@ namespace CmdLineOpt {
 
             if (result["use"].as<std::string>() == "otranet") {
                 type_net = TYPE::OTRANET;
-                std::cout << "[OTRANET] " << std::endl;
+                std::cout << "[OTRANET] ";
                 std::cout << " <";
                 for (const auto& IT : params) {
                     std::cout << IT << " ";
@@ -82,7 +82,7 @@ namespace CmdLineOpt {
 
             if (result["use"].as<std::string>() == "piramidal") {
                 type_net = TYPE::PIRAMIDAL;
-                std::cout << "[PIRAMIDAL] " << std::endl;
+                std::cout << "[PIRAMIDAL] ";
                 std::cout << " <";
                 for (const auto& IT : params) {
                     std::cout << IT << " ";

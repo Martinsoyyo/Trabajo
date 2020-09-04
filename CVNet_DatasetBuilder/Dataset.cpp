@@ -64,7 +64,8 @@ Dataset::Pair Dataset::proccesing_data(
             std::string STR = PATH + DSEP + dirname;
             if (CmdLineOpt::verbose) std::cout << STR << std::endl;
             IMG.push_back(get_image_from_directory(STR, "jpg"));
-            TRG.push_back(torch::full({ IMG[count].size(0) }, count).to(at::kByte));
+            TRG.push_back(torch::zeros({ IMG[count].size(0), 1 }).fill_(count).to(at::kByte));
+
             count++;
         }
     };
