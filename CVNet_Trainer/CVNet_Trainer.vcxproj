@@ -163,14 +163,17 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">pch.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="VGG.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cmdlineopt.h" />
     <ClInclude Include="CVNet.h" />
     <ClInclude Include="cxxopts.hpp" />
     <ClInclude Include="DenseNet.h" />
+    <ClInclude Include="ModelSimpl.hpp" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Trainer.h" />
+    <ClInclude Include="VGG.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Readme.md" />

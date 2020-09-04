@@ -3,6 +3,8 @@
 #include <torch/torch.h>
 #include <torch/script.h>
 
+#include <unordered_map>
+
 #ifdef _WIN64
 #include <windows.h>
 #endif

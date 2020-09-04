@@ -122,15 +122,15 @@ void Trainer<NET>::foo() {
 		Test(image_train, target_train);//Testeo sobre lo que va entrenado.
 		auto result = Test(image_test, target_test); //Testeo LOTE que no aprende la RED.
 		
-		for (auto& group : optimizer.param_groups())
-		{
-			if (group.has_options())
-			{
-				auto& options = static_cast<torch::optim::AdamOptions&>(group.options());
-				cout << "[ Learning_rate] " << options.lr() << endl;;
-				options.lr(options.lr() * (1.0 - rate));
-			}
-		}
+		//for (auto& group : optimizer.param_groups())
+		//{
+		//	if (group.has_options())
+		//	{
+		//		auto& options = static_cast<torch::optim::AdamOptions&>(group.options());
+		//		cout << "[ Learning_rate] " << options.lr() << endl;;
+		//		options.lr(options.lr() * (1.0 - rate));
+		//	}
+		//}
 
 
 		if (result > best_result) {

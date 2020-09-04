@@ -24,6 +24,9 @@
     <ClCompile Include="cmdlineopt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="VGG.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CVNet.h">
@@ -42,6 +45,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DenseNet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VGG.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelSimpl.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
