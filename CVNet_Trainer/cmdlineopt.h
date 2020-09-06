@@ -6,7 +6,7 @@ namespace CmdLineOpt {
 
 	extern float drop_rate;
 	extern uint32_t growth_rate;
-	extern std::vector<uint32_t> params;
+	extern std::vector<int> params;
 	
 	enum TYPE { DENSENET, OTRANET, PIRAMIDAL };
 	extern int type_net;
@@ -15,6 +15,7 @@ namespace CmdLineOpt {
 	extern int  batch_size;
 	extern bool cpu;
 	extern bool verbose;
+	extern bool batch_norm;
 	extern int overwrite;
 	extern float percent_to_train;
 	extern float learning_rate;

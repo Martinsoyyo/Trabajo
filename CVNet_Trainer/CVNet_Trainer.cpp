@@ -77,13 +77,20 @@ TORCH_MODULE(_Dense2);
 
 int main(int argc, const char* argv[]) {
 
-    //std::vector<uint32_t> VEC = { 22,33};
-    //OtraNet NN(VEC, 0.21f);
+    //std::vector<int> VEC = { 32,-1,33,-1,34,-1 };
+    //OtraNet NN(VEC, 0.21f, CmdLineOpt::batch_norm);
 
-    //auto ui = torch::randn({ 1,3, 64,64 });
+    //auto ui = torch::randn({ 22,3, 164,164 });
     //std::cout << NN << std::endl;
     //std::cout << NN->forward(ui).sizes() << std::endl;
     //std::cout << NN->forward(ui).dtype() << std::endl;
+    //std::cout << "";
+
+    //auto x = torch::arange(200).view({ 2,10,10 }).to(torch::kFloat);
+    //std::cout << x << std::endl;
+    //auto  y = torch::adaptive_avg_pool2d(x, { 7,7});
+    //std::cout << y << std::endl;
+
 
     try {
         // Opciones de línea de comando
@@ -91,21 +98,21 @@ int main(int argc, const char* argv[]) {
         CmdLineOpt::CmdLineOpt(argc, argv);
 
         if (CmdLineOpt::type_net == CmdLineOpt::TYPE::DENSENET) {
-            DenseNet NET(
-                	2, //num_classes  
-                	CmdLineOpt::growth_rate,//growth_rate
-                	CmdLineOpt::params,//block_config
-                	64,//num_init_features
-                	4, //bn_size
-                	0 //drop_rate
-                );  
-
-            Trainer<DenseNet> TRAINER(NET);
+            //DenseNet NET(
+            //    	2, //num_classes  
+            //    	CmdLineOpt::growth_rate,//growth_rate
+            //    	CmdLineOpt::params,//block_config
+            //    	64,//num_init_features
+            //    	4, //bn_size
+            //    	0 //drop_rate
+            //    );  
+            //Trainer<DenseNet> TRAINER(NET);
         }
         else if (CmdLineOpt::type_net == CmdLineOpt::TYPE::OTRANET) {
             OtraNet NET(
                 CmdLineOpt::params,
-                CmdLineOpt::drop_rate
+                CmdLineOpt::drop_rate,
+                CmdLineOpt::batch_norm
             );
 
             Trainer<OtraNet> TRAINER(NET);
@@ -115,7 +122,6 @@ int main(int argc, const char* argv[]) {
             //    CmdLineOpt::params,
             //    CmdLineOpt::drop_rate
             //);
-
             //VGG11 NET(2);
             //Trainer<VGG11> TRAINER(NET);
         }

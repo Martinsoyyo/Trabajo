@@ -100,8 +100,8 @@ void Trainer<NET>::foo() {
 	std::chrono::time_point<std::chrono::system_clock> start, end;
 	start = std::chrono::system_clock::now();
 
-	//auto best_result = Test(image_test, target_test);
-	auto best_result = 0;
+	auto best_result = Test(image_test, target_test);
+	//auto best_result = 0;
 	end = std::chrono::system_clock::now();
 	std::chrono::duration<double> elapsed_seconds = end - start;
 
