@@ -4,7 +4,7 @@
 namespace CmdLineOpt {
     int  epoch                  = 10;
     int  batch_size             = 32;
-    bool overwrite              = true;
+    int overwrite              = 1;
     bool cpu                    = false;
     bool verbose                = false;
     float percent_to_train      = 0.75f;
@@ -40,7 +40,7 @@ namespace CmdLineOpt {
                 ("v,verbose", "Informacion detallada mientras se ejecuta.", cxxopts::value<bool>(verbose))
                 ("e,epoch", "Numero de pasadas por el Lote de entrenamiento.", cxxopts::value<int>(epoch))
                 ("t,train", "% del DATASET que se usa para entrenamiento.", cxxopts::value<float>(percent_to_train))
-                ("o,overwrite", "carga el modelo de la RED si lo encuentra.", cxxopts::value<bool>(overwrite))       
+                ("o,overwrite", "carga el modelo de la RED si lo encuentra.", cxxopts::value<int>(overwrite))       
                 ("l,learning_rate", "Learning Rate.", cxxopts::value<float>(learning_rate))
                 ("g,growth_rate", "Cantidad de capas que sa van agregando en cada etapa. <DENSENET>", cxxopts::value<uint32_t>(growth_rate))
                 ("params", "Parametros de la RED.", cxxopts::value< std::vector<uint32_t>>(params))

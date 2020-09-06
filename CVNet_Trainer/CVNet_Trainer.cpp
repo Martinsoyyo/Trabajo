@@ -76,18 +76,19 @@ TORCH_MODULE(_Dense2);
 
 
 int main(int argc, const char* argv[]) {
+
+    //std::vector<uint32_t> VEC = { 22,33};
+    //OtraNet NN(VEC, 0.21f);
+
+    //auto ui = torch::randn({ 1,3, 64,64 });
+    //std::cout << NN << std::endl;
+    //std::cout << NN->forward(ui).sizes() << std::endl;
+    //std::cout << NN->forward(ui).dtype() << std::endl;
+
     try {
         // Opciones de línea de comando
         // --path=C:\Repositories\CementCrack\Prueba --prefix=64x64 --size=64 --verbose 
         CmdLineOpt::CmdLineOpt(argc, argv);
-        
-        //std::vector<uint32_t> VEC = { 22,33};
-        //OtraNet NN(VEC, 0.21f);
-
-        //auto ui = torch::randn({ 1,3, 64,64 });
-        //std::cout << NN << std::endl;
-        //std::cout << NN->forward(ui).sizes() << std::endl;
-        //std::cout << NN->forward(ui).dtype() << std::endl;
 
         if (CmdLineOpt::type_net == CmdLineOpt::TYPE::DENSENET) {
             DenseNet NET(

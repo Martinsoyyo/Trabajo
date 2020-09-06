@@ -59,9 +59,9 @@ struct OtraNetImpl : torch::nn::SequentialImpl
         } while (i != FILTERS.size() - 1);
 
         push_back(Flatten());
-        push_back(Linear(128, 256));
+     /*   push_back(Linear(128, 256));
         push_back(Linear(256, 2));
         push_back(LogSoftmax(1));
-    }
+    */}
 };
 TORCH_MODULE(OtraNet);

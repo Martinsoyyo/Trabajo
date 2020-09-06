@@ -46,7 +46,21 @@ void Trainer<NET>::foo() {
 		throw(e);
 	}
 
-	// Como todo el programa se basa en estos tensores, y solo uso "vistas" a ellos,
+	// Carga la RED si existe.
+	if (CmdLineOpt::overwrite == true) {
+		try {
+			torch::load(_net, "model.pt"); // NOTA TEMPORARIA. Considerar el control de que el modelo cargado coincida con el del código.
+			std::cout << "MODEL Loaded..." << std::endl;
+		}
+		catch (...) {
+			std::cout << "MODEL Not Found... OVERWRITE ignored!." << std::endl;
+		}
+	}
+	else {
+		std::cout << "MODEL Created..." << std::endl;
+	}
+
+
 	torch::Device DeviceType = (torch::cuda::is_available() ? torch::kCUDA : torch::kCPU);
 	// NOTA TEMPORARIA. Sacar de esta sección
 	std::cout << "Device: ";
@@ -82,20 +96,6 @@ void Trainer<NET>::foo() {
 	auto target_train = _target.slice(0, 0, N);
 	auto target_test = _target.slice(0, N + 1);
 
-	// Carga la RED si existe.
-	if (CmdLineOpt::overwrite) {  // NOTA TEMPORARIA. La idea era que el overwrite IGNORE el archivos. Revisar y poner en común la semántica de las opciones.
-		try {
-			torch::load(_net, "model.pt"); // NOTA TEMPORARIA. Considerar el control de que el modelo cargado coincida con el del código.
-			std::cout << "MODEL Loaded..." << std::endl;
-		}
-		catch (...) {
-			std::cout << "MODEL Not Found... OVERWRITE ignored!." << std::endl;
-		}
-	}
-	else {
-		std::cout << "MODEL Created..." << std::endl;
-	}
-
 	// Mido el tiempo que tarda en analizar una imagen en promedio.
 	std::chrono::time_point<std::chrono::system_clock> start, end;
 	start = std::chrono::system_clock::now();
@@ -125,7 +125,6 @@ void Trainer<NET>::foo() {
 		//		options.lr(options.lr() * (1.0 - rate));
 		//	}
 		//}
-
 
 		if (result > best_result) {
 			torch::save(_net, "model.pt");
