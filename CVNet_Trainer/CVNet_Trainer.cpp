@@ -77,19 +77,18 @@ TORCH_MODULE(_Dense2);
 
 int main(int argc, const char* argv[]) {
 
-    //std::vector<int> VEC = { 32,-1,33,-1,34,-1 };
+    //std::vector<int> VEC = { 32,-1,33,-1,34,-1,32,-1,44,-1,25,-1 };
     //OtraNet NN(VEC, 0.21f, CmdLineOpt::batch_norm);
-
-    //auto ui = torch::randn({ 22,3, 164,164 });
+    //auto ui = torch::randn({ 12,3, 128,128 });
     //std::cout << NN << std::endl;
     //std::cout << NN->forward(ui).sizes() << std::endl;
     //std::cout << NN->forward(ui).dtype() << std::endl;
     //std::cout << "";
 
-    //auto x = torch::arange(200).view({ 2,10,10 }).to(torch::kFloat);
-    //std::cout << x << std::endl;
+    //auto x = torch::randn({ 12,3,10,10 });
+    //std::cout << x.sizes() << std::endl;
     //auto  y = torch::adaptive_avg_pool2d(x, { 7,7});
-    //std::cout << y << std::endl;
+    //std::cout << y.sizes() << std::endl;
 
 
     try {

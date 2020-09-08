@@ -15,7 +15,7 @@ namespace CmdLineOpt {
 	extern int  batch_size;
 	extern bool cpu;
 	extern bool verbose;
-	extern bool batch_norm;
+	extern int batch_norm;
 	extern int overwrite;
 	extern float percent_to_train;
 	extern float learning_rate;

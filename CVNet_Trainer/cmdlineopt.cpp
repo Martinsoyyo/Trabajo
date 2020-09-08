@@ -5,7 +5,7 @@ namespace CmdLineOpt {
     int  epoch                  = 10;
     int  batch_size             = 32;
     int overwrite              = 1;
-    bool batch_norm             = true;
+    int batch_norm             = 1;
     bool cpu                    = false;
     bool verbose                = false;
     float percent_to_train      = 0.75f;
@@ -47,7 +47,7 @@ namespace CmdLineOpt {
                 ("params", "Parametros de la RED.", cxxopts::value< std::vector<int>>(params))
                 ("d,drop_rate", "DropRate %", cxxopts::value<float>(drop_rate))
                 ("use", "Que tipo de RED uso.", cxxopts::value<std::string>(net_name))
-                ("batch_norm", "batch_norm.", cxxopts::value<bool>(batch_norm))
+                ("batch_norm", "batch_norm.", cxxopts::value<int>(batch_norm))
 
                 ;
 
@@ -60,7 +60,7 @@ namespace CmdLineOpt {
             if (result.count("path")) std::cout << "[IMAGE PATH] " << dataset_path << std::endl;
             if (result.count("overwrite")) std::cout << "[LOAD MODEL] " << overwrite << std::endl;
             if (result.count("growth_rate")) std::cout << "[GROWTH_RATE] " << growth_rate << std::endl;
-            if (result.count("drop")) std::cout << "[DROP_RATE] " << drop_rate << "%" << std::endl;
+            if (result.count("drop_rate")) std::cout << "[DROP_RATE] " << drop_rate << "%" << std::endl;
             if (result.count("learning_rate")) std::cout << "[LEARNING_RATE] " << learning_rate << std::endl;
             if (result.count("batch_norm")) std::cout << "[BATCH_NORM] =" << batch_norm << std::endl;
 

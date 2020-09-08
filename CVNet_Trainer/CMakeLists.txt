@@ -14,7 +14,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${TORCH_CXX_FLAGS}")
 #    ${CMDLINEOPT_PATH}/include/
 #)
 
-add_executable(CVNet_Trainer CVNet_Trainer.cpp Trainer.cpp cmdlineopt.cpp)
+add_executable(CVNet_Trainer CVNet_Trainer.cpp cmdlineopt.cpp)
 # ${CMDLINEOPT_PATH}/include/cmdlineopt.hpp ../common/globals.cpp
 
 # Precompiled header pch.h
