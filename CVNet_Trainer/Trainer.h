@@ -35,6 +35,17 @@ Trainer<NET>::Trainer(const NET& OBJ) :_net(OBJ) {
 
 template<class NET>
 void Trainer<NET>::foo() {
+
+	try {
+		cout << "Cargando " << IMG_FNAME(CmdLineOpt::dataset_path, CmdLineOpt::dataset_prefix) << endl;
+		torch::load(_image, IMG_FNAME(CmdLineOpt::dataset_path, CmdLineOpt::dataset_prefix));
+		torch::load(_target, TRG_FNAME(CmdLineOpt::dataset_path, CmdLineOpt::dataset_prefix));
+	}
+	catch (exception& e) {
+		cerr << "Trainer::Trainer() - torch::load" << endl << e.what();
+		throw(e);
+	}
+
 	torch::Device DeviceType = (torch::cuda::is_available() ? torch::kCUDA : torch::kCPU);
 	// NOTA TEMPORARIA. Sacar de esta sección
 	std::cout << "Device: ";
@@ -48,15 +59,7 @@ void Trainer<NET>::foo() {
 	}
 	else cout << "Using CPU" << endl;
 
-	try {
-		cout << "Cargando " << IMG_FNAME(CmdLineOpt::dataset_path, CmdLineOpt::dataset_prefix) << endl;
-		torch::load(_image, IMG_FNAME(CmdLineOpt::dataset_path, CmdLineOpt::dataset_prefix));
-		torch::load(_target, TRG_FNAME(CmdLineOpt::dataset_path, CmdLineOpt::dataset_prefix));
-	}
-	catch (exception& e) {
-		cerr << "Trainer::Trainer() - torch::load" << endl << e.what();
-		throw(e);
-	}
+
 
 	// Carga la RED si existe.
 	if (CmdLineOpt::overwrite == true) {
