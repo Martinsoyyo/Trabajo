@@ -35,6 +35,18 @@ Trainer<NET>::Trainer(const NET& OBJ) :_net(OBJ) {
 
 template<class NET>
 void Trainer<NET>::foo() {
+	torch::Device DeviceType = (torch::cuda::is_available() ? torch::kCUDA : torch::kCPU);
+	// NOTA TEMPORARIA. Sacar de esta sección
+	std::cout << "Device: ";
+	if (DeviceType == torch::kCUDA) cout << "CUDA disponible"; else cout << "CPU solamente"; cout << endl;
+
+	if (!CmdLineOpt::cpu && DeviceType == torch::kCUDA) {
+		cout << "Using CUDA GPU" << endl;
+		_image = _image.to(DeviceType);
+		_target = _target.to(DeviceType);
+		_net->to(DeviceType);
+	}
+	else cout << "Using CPU" << endl;
 
 	try {
 		cout << "Cargando " << IMG_FNAME(CmdLineOpt::dataset_path, CmdLineOpt::dataset_prefix) << endl;
@@ -60,29 +72,12 @@ void Trainer<NET>::foo() {
 		std::cout << "MODEL Created..." << std::endl;
 	}
 
-
-	torch::Device DeviceType = (torch::cuda::is_available() ? torch::kCUDA : torch::kCPU);
-	// NOTA TEMPORARIA. Sacar de esta sección
-	std::cout << "Device: ";
-	if (DeviceType == torch::kCUDA) cout << "CUDA disponible"; else cout << "CPU solamente"; cout << endl;
-
-	if (!CmdLineOpt::cpu && DeviceType == torch::kCUDA) {
-		cout << "Using CUDA GPU" << endl;
-		_image = _image.to(DeviceType);
-		_target = _target.to(DeviceType);
-		_net->to(DeviceType);
-	}
-	else cout << "Using CPU" << endl;
-
-	// torch::optim::Adam optimizer(NET->parameters(), torch::optim::AdamOptions(1e-5).weight_decay(0.005).beta1(0.9).beta2(0.999));
-	// Según la versión de Pytorch utilizada. Habría que ver cómo hacerlo en tiempo de compilación
-	//torch::optim::Adam optimizer(NET->parameters(), torch::optim::AdamOptions(2e-4).beta1(0.5));
 	torch::optim::Adam optimizer(
 		_net->parameters(),
 		torch::optim::AdamOptions(CmdLineOpt::learning_rate)
 		.betas(std::make_tuple(0.9, 0.995))
 		.eps(1e-8)
-		.weight_decay(0.01)
+		.weight_decay(0.05)
 	);
 
 	std::cout << _net << std::endl;
@@ -115,7 +110,8 @@ void Trainer<NET>::foo() {
 		Train(i, optimizer, image_train, target_train);
 		Test(image_train, target_train);//Testeo sobre lo que va entrenado.
 		auto result = Test(image_test, target_test); //Testeo LOTE que no aprende la RED.
-		
+		std::cout << std::endl;
+
 		//for (auto& group : optimizer.param_groups())
 		//{
 		//	if (group.has_options())
@@ -126,7 +122,7 @@ void Trainer<NET>::foo() {
 		//	}
 		//}
 
-		if (result > best_result) {
+	if (result > best_result) {
 			torch::save(_net, "model.pt");
 			best_result = result;
 		}
@@ -165,7 +161,6 @@ void Trainer<NET>::Train(const uint32_t& EPOCH, torch::optim::Optimizer& OPT, to
 			IMG.size(0),
 			loss.template item<float>());
 	}
-	std::cout << std::endl;
 }
 
 template<class NET>
@@ -173,7 +168,6 @@ float Trainer<NET>::Test(torch::Tensor& IMG, torch::Tensor& TRG) {
 	std::cout << "Testing... ";
 	_net->eval();
 
-	// Separo los tensores de entrada en Batches.
 	auto IMAGE = IMG.split(CmdLineOpt::batch_size);
 	auto TARGET = TRG.split(CmdLineOpt::batch_size);
 
@@ -184,6 +178,6 @@ float Trainer<NET>::Test(torch::Tensor& IMG, torch::Tensor& TRG) {
 	};
 
 	float ACCURACY = (float)correct / (float)IMG.size(0);
-	std::cout << "Accuracy " << ACCURACY << std::endl;
+	std::cout << "Accuracy " << ACCURACY << " ";
 	return ACCURACY;
 };

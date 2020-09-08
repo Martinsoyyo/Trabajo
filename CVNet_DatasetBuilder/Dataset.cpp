@@ -33,7 +33,7 @@ auto Dataset::get_image_from_directory(
         // Pre-tratamiento de cada imagen con OpenCV.
         cv::Mat aux = cv::imread(PATH + DSEP + filename);
         std::vector<cv::Mat> rgb;
-        cv::resize(aux, aux, cv::Size(CmdLineOpt::image_size, CmdLineOpt::image_size));
+        cv::resize(aux, aux, cv::Size(CmdLineOpt::image_size, CmdLineOpt::image_size), cv::INTER_CUBIC);
         cv::split(aux, rgb);
         //---------------------------------------------------------------------
         auto m_images = torch::zeros({ 3,CmdLineOpt::image_size,CmdLineOpt::image_size }, torch::kByte);

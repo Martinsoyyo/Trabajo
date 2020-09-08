@@ -77,9 +77,9 @@ TORCH_MODULE(_Dense2);
 
 int main(int argc, const char* argv[]) {
 
-    //std::vector<int> VEC = { 32,-1,33,-1,34,-1,32,-1,44,-1,25,-1 };
+    //std::vector<int> VEC = { 64 ,64, -1, 64, 64, -1, 64, 64, -1, 64, 64, -1, 64, 64, -1, 32, 32, -1 };
     //OtraNet NN(VEC, 0.21f, CmdLineOpt::batch_norm);
-    //auto ui = torch::randn({ 12,3, 128,128 });
+    //auto ui = torch::randn({ 12,3, 220,220 });
     //std::cout << NN << std::endl;
     //std::cout << NN->forward(ui).sizes() << std::endl;
     //std::cout << NN->forward(ui).dtype() << std::endl;
@@ -97,15 +97,15 @@ int main(int argc, const char* argv[]) {
         CmdLineOpt::CmdLineOpt(argc, argv);
 
         if (CmdLineOpt::type_net == CmdLineOpt::TYPE::DENSENET) {
-            //DenseNet NET(
+            //densenet net(
             //    	2, //num_classes  
-            //    	CmdLineOpt::growth_rate,//growth_rate
-            //    	CmdLineOpt::params,//block_config
+            //    	cmdlineopt::growth_rate,//growth_rate
+            //    	cmdlineopt::params,//block_config
             //    	64,//num_init_features
             //    	4, //bn_size
             //    	0 //drop_rate
             //    );  
-            //Trainer<DenseNet> TRAINER(NET);
+            //trainer<densenet> trainer(net);
         }
         else if (CmdLineOpt::type_net == CmdLineOpt::TYPE::OTRANET) {
             OtraNet NET(
