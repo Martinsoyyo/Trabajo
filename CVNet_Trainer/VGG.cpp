@@ -15,7 +15,6 @@ torch::nn::Sequential makeLayers(
         else {
             seq->push_back(torch::nn::Conv2d(torch::nn::Conv2dOptions(channels, V, 3).padding(1)));
             if (batch_norm) seq->push_back(torch::nn::BatchNorm2d(V));
-            //seq->push_back(torch::nn::Functional(modelsimpl::relu_));
             seq->push_back(torch::nn::Functional(torch::relu));
 
             channels = V;

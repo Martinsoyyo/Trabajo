@@ -42,7 +42,7 @@ struct OtraNetImpl : torch::nn::SequentialImpl
 {
     torch::nn::Sequential features, classifier;
 
-    OtraNetImpl(std::vector<int>& PARAMS, const float& DROP_RATE,  const bool& BATCH_NORM) {
+    OtraNetImpl(std::vector<int>& PARAMS, const float& DROP_RATE, const bool& BATCH_NORM) {
         using namespace torch::nn;
 
         size_t count_reduction = 0;
@@ -54,7 +54,7 @@ struct OtraNetImpl : torch::nn::SequentialImpl
                 count_reduction++;
             }
             else {
-                features->push_back(Conv2d(Conv2dOptions(channel, V, 3 /*kernel*/).padding(1).bias(false)));
+                features->push_back(Conv2d(Conv2dOptions(channel, V, 3 /*kernel*/).padding(1).bias(true)));
                 if (BATCH_NORM) features->push_back(BatchNorm2d(V));
                 if (DROP_RATE) features->push_back(Dropout(DROP_RATE));
                 features->push_back(Functional(torch::relu));
@@ -63,7 +63,7 @@ struct OtraNetImpl : torch::nn::SequentialImpl
         };
 
         classifier = torch::nn::Sequential(
-            Linear(channel * 8*8, 256),
+            Linear(channel * 8 * 8, 256),
             Functional(torch::relu),
             Dropout(0.5),
             Linear(256, 256),
@@ -75,6 +75,8 @@ struct OtraNetImpl : torch::nn::SequentialImpl
 
         register_module("features", this->features);
         register_module("classifier", classifier);
+
+        _initialize_weights();
     }
 
     torch::Tensor forward(torch::Tensor x) {
@@ -84,6 +86,28 @@ struct OtraNetImpl : torch::nn::SequentialImpl
         x = x.view({ x.size(0), -1 });
         x = classifier->forward(x);
         return x;
+    }
+
+    void _initialize_weights() {
+        for (auto& module : modules(/*include_self=*/false)) {
+            if (auto M = dynamic_cast<torch::nn::Conv2dImpl*>(module.get())) {
+                torch::nn::init::kaiming_normal_(
+                    M->weight,
+                    /*a=*/0,
+                    torch::kFanOut,
+                    torch::kReLU);
+                torch::nn::init::constant_(M->bias, 0);
+            }
+            else if (
+                auto M = dynamic_cast<torch::nn::BatchNorm2dImpl*>(module.get())) {
+                torch::nn::init::constant_(M->weight, 1);
+                torch::nn::init::constant_(M->bias, 0);
+            }
+            else if (auto M = dynamic_cast<torch::nn::LinearImpl*>(module.get())) {
+                torch::nn::init::normal_(M->weight, 0, 0.01);
+                torch::nn::init::constant_(M->bias, 0);
+            }
+        }
     }
 
 };

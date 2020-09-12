@@ -2,7 +2,7 @@
 #include "pch.h"
 #include "cmdlineopt.h"
 #include "CVNet.h"
-#include "DenseNet.h"
+#include "_DenseNet.h"
 
 using namespace std;
 // es un espacio de nombres estandar muy usadado. Se abrevian comandos muy repetidos. No hay posibilidad real de confundirlo con otro entorno (espacio de nombres)
