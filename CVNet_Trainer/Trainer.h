@@ -84,7 +84,7 @@ void Trainer<NET>::foo() {
 		.weight_decay(0.05)
 	);
 
-	std::cout << _net << std::endl;
+	//std::cout << _net << std::endl;
 
 	// Referencias que apuntan a la zona de testeo y entrenamiento.
 	const auto N = int64_t(CmdLineOpt::percent_to_train * _image.size(0));
@@ -99,9 +99,8 @@ void Trainer<NET>::foo() {
 	std::chrono::time_point<std::chrono::system_clock> start, end;
 	start = std::chrono::system_clock::now();
 
-	//auto best_result = Test(image_test, target_test);
+	auto best_result = Test(image_test, target_test);
 
-	auto best_result = 0;
 	end = std::chrono::system_clock::now();
 	std::chrono::duration<double> elapsed_seconds = end - start;
 

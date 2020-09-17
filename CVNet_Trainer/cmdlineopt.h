@@ -6,7 +6,7 @@ namespace CmdLineOpt {
 
 	extern float drop_rate;
 	extern size_t growth_rate;
-	extern std::vector<size_t> params;
+	extern std::vector<int> params;
 	
 	enum TYPE { DENSENET, OTRANET, PIRAMIDAL };
 	extern size_t type_net;

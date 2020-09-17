@@ -15,7 +15,7 @@ struct _DenseLayerImpl : torch::nn::SequentialImpl {
         push_back("norm2", BatchNorm2d(128));
         push_back("relu2", Functional(torch::relu));
         push_back("conv2", Conv2d(Conv2dOptions(128, GROWTH, 3).stride(1).padding(1).bias(false)));
-        if (DROP_RATE > 0) push_back("dropout", torch::nn::Dropout(DROP_RATE));
+        if (DROP_RATE > 0) push_back("dropout", Dropout(DROP_RATE));
     };
 
     torch::Tensor forward(torch::Tensor x) {
@@ -62,7 +62,7 @@ struct _DenseNetImpl : torch::nn::SequentialImpl {
     _DenseNetImpl(
         size_t OUT_CLASSES,
         size_t GROWTH,
-        const std::vector<size_t> LAYER_CONFIG,
+        const std::vector<int> LAYER_CONFIG,
         size_t IN_CLASSES,
         float DROP_RATE)
     {
@@ -89,7 +89,10 @@ struct _DenseNetImpl : torch::nn::SequentialImpl {
         push_back("final_norm", torch::nn::BatchNorm2d(last));
         push_back(MaxPool2d(3));
         push_back(Flatten());
-        push_back(Linear(last, OUT_CLASSES));
+        push_back(Linear(last, 256));
+        push_back(Functional(torch::relu));
+        push_back(Dropout(0.2));
+        push_back(Linear(256, 2));
         push_back(LogSoftmax(1));
     }
 

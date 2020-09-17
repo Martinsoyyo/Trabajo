@@ -42,7 +42,7 @@ struct OtraNetImpl : torch::nn::SequentialImpl
 {
     torch::nn::Sequential features, classifier;
 
-    OtraNetImpl(const std::vector<size_t>& PARAMS, const float& DROP_RATE, const bool& BATCH_NORM) {
+    OtraNetImpl(const std::vector<int>& PARAMS, const float& DROP_RATE, const bool& BATCH_NORM) {
         using namespace torch::nn;
 
         size_t count_reduction = 0;

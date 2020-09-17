@@ -14,7 +14,7 @@ namespace CmdLineOpt {
 
     size_t type_net;
     std::string net_name;
-    std::vector<size_t> params;
+    std::vector<int> params;
     uint64_t growth_rate        = 12;
     
     std::string dataset_path    = "";
@@ -44,7 +44,7 @@ namespace CmdLineOpt {
                 ("o,overwrite", "carga el modelo de la RED si lo encuentra.", cxxopts::value<size_t>(overwrite))
                 ("l,learning_rate", "Learning Rate.", cxxopts::value<float>(learning_rate))
                 ("g,growth_rate", "Cantidad de capas que sa van agregando en cada etapa. <DENSENET>", cxxopts::value<size_t>(growth_rate))
-                ("params", "Parametros de la RED.", cxxopts::value< std::vector<size_t>>(params))
+                ("params", "Parametros de la RED.", cxxopts::value< std::vector<int>>(params))
                 ("d,drop_rate", "DropRate %", cxxopts::value<float>(drop_rate))
                 ("use", "Que tipo de RED uso.", cxxopts::value<std::string>(net_name))
                 ("batch_norm", "batch_norm.", cxxopts::value<size_t>(batch_norm))
