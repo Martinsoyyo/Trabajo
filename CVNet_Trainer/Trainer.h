@@ -1,11 +1,11 @@
 #pragma once
 #include "pch.h"
+
 #include "cmdlineopt.h"
 #include "CVNet.h"
-//#include "_VGG.hpp"
-//#include "_DenseNet.hpp"
-
+#include "Arenero.h"
 using namespace std;
+
 // es un espacio de nombres estandar muy usadado. Se abrevian comandos muy repetidos. No hay posibilidad real de confundirlo con otro entorno (espacio de nombres)
 
 constexpr auto DSEP = "/";
@@ -21,7 +21,7 @@ class Trainer {
 public:
 	Trainer(const NET& OBJ);
 	float Test(torch::Tensor& IMG, torch::Tensor& TRG);
-	void Train(const uint32_t& EPOCH, torch::optim::Optimizer& OPT, torch::Tensor& IMG, torch::Tensor& TRG);
+	void Train(const size_t& EPOCH, torch::optim::Optimizer& OPT, torch::Tensor& IMG, torch::Tensor& TRG);
 
 	void foo();
 private:
@@ -100,6 +100,7 @@ void Trainer<NET>::foo() {
 	start = std::chrono::system_clock::now();
 
 	//auto best_result = Test(image_test, target_test);
+
 	auto best_result = 0;
 	end = std::chrono::system_clock::now();
 	std::chrono::duration<double> elapsed_seconds = end - start;
@@ -144,7 +145,7 @@ void Trainer<NET>::foo() {
 }
 
 template<class NET>
-void Trainer<NET>::Train(const uint32_t& EPOCH, torch::optim::Optimizer& OPT, torch::Tensor& IMG, torch::Tensor& TRG) {
+void Trainer<NET>::Train(const size_t& EPOCH, torch::optim::Optimizer& OPT, torch::Tensor& IMG, torch::Tensor& TRG) {
 	std::cout << "Trainning... ";
 	_net->train();
 
@@ -152,7 +153,7 @@ void Trainer<NET>::Train(const uint32_t& EPOCH, torch::optim::Optimizer& OPT, to
 	auto IMAGE = IMG.split(CmdLineOpt::batch_size);
 	auto TARGET = TRG.split(CmdLineOpt::batch_size);
 
-	for (uint32_t idx = 0; idx < IMAGE.size(); idx++) {
+	for (auto idx = 0; idx < IMAGE.size(); idx++) {
 		OPT.zero_grad();
 		auto prediction = _net->forward(IMAGE[idx].to(at::kFloat).div_(255));
 		//auto loss = torch::binary_cross_entropy(prediction, TARGET[idx].to(at::kLong));
@@ -176,7 +177,7 @@ float Trainer<NET>::Test(torch::Tensor& IMG, torch::Tensor& TRG) {
 	auto TARGET = TRG.split(CmdLineOpt::batch_size);
 
 	size_t correct = 0;
-	for (uint32_t idx = 0; idx < IMAGE.size(); idx++) {
+	for (auto idx = 0; idx < IMAGE.size(); idx++) {
 		auto prediction = _net->forward(IMAGE[idx].to(at::kFloat).div_(255));
 		correct += prediction.argmax(1).eq(TARGET[idx]).sum().template item<int64_t>();
 	};

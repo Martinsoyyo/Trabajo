@@ -24,12 +24,6 @@
     <ClCompile Include="cmdlineopt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="VGG.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="_DenseNet.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CVNet.h">
@@ -47,19 +41,7 @@
     <ClInclude Include="cmdlineopt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ModelSimpl.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VGG.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Arenero.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="_DenseNet.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="_VGG.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

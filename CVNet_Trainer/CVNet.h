@@ -1,5 +1,5 @@
 #pragma once
-#include "cmdlineopt.h"
+#include "pch.h"
 
 struct NetworkImpl : torch::nn::SequentialImpl
 {
@@ -35,8 +35,8 @@ TORCH_MODULE(Network);
 //--path C:\Repositories\CementCrack\prueba --prefix 64x64 --epoch 10 0 -b 12 -o 0 
 // --use otranet --params 32,-1,32,-1,32,-1,32,-1 --drop_rate 0.22 --learning_rate 0.0001 --batch_norm 1
 
-const uint32_t CHANNEL_IN = 3;
-const uint32_t CHANNEL_OUT= 2;
+const size_t CHANNEL_IN = 3;
+const size_t CHANNEL_OUT= 2;
 
 struct OtraNetImpl : torch::nn::SequentialImpl
 {
