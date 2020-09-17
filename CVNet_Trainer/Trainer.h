@@ -2,7 +2,8 @@
 #include "pch.h"
 #include "cmdlineopt.h"
 #include "CVNet.h"
-#include "_DenseNet.h"
+//#include "_VGG.hpp"
+//#include "_DenseNet.hpp"
 
 using namespace std;
 // es un espacio de nombres estandar muy usadado. Se abrevian comandos muy repetidos. No hay posibilidad real de confundirlo con otro entorno (espacio de nombres)
@@ -98,8 +99,8 @@ void Trainer<NET>::foo() {
 	std::chrono::time_point<std::chrono::system_clock> start, end;
 	start = std::chrono::system_clock::now();
 
-	auto best_result = Test(image_test, target_test);
-	//auto best_result = 0;
+	//auto best_result = Test(image_test, target_test);
+	auto best_result = 0;
 	end = std::chrono::system_clock::now();
 	std::chrono::duration<double> elapsed_seconds = end - start;
 

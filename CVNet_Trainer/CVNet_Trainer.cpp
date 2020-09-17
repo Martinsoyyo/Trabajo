@@ -2,19 +2,35 @@
 #include "cmdlineopt.h"
 #include "Trainer.h"
 #include "CVNet.h"
-#include "_DenseNet.h"
-#include "VGG.hpp"
+#include "Arenero.h"
+
+//#include "_DenseNet.hpp"
+//#include "_VGG.hpp"
 
 int main(int argc, const char* argv[]) {
 
-    //std::vector<int> VEC = { 64 ,64, -1, 64, 64, -1, 64, 64, -1, 64, 64, -1, 64, 64, -1, 32, 32, -1 };
-    //OtraNet NN(VEC, 0.21f, CmdLineOpt::batch_norm);
+    //std::vector<int64_t> VEC = { 6, 12, 24, 16 };
 
-    //DenseNet121 NN(2);
-    //auto ui = torch::randn({ 12,3, 220,220 });
+
+    //_DenseBlock NN(5, 3, 32, 0.23);
+    //_Transition NN1(5 * 32 + 3, 14);
+
+    //_DenseNet   NN2(2, 32, VEC, 64, 0.213);
+
+    //auto ui = torch::randn({ 2,3, 220,220 });
     //std::cout << NN << std::endl;
-    //std::cout << NN->forward(ui).sizes() << std::endl;
-    //std::cout << NN->forward(ui).dtype() << std::endl;
+    //std::cout << NN2 << std::endl;
+
+    //auto D = NN2->forward(ui);
+    //std::cout << D.sizes() << std::endl;
+
+
+    //auto T = NN->forward(ui);
+    //std::cout << T.sizes() << std::endl;
+
+    //auto D = NN1->forward(T);
+    //std::cout << D.sizes() << std::endl;
+
     //std::cout << "";
 
     //auto x = torch::randn({ 12,3,10,10 });
@@ -28,23 +44,17 @@ int main(int argc, const char* argv[]) {
         // --path=C:\Repositories\CementCrack\Prueba --prefix=64x64 --size=64 --verbose 
         CmdLineOpt::CmdLineOpt(argc, argv);
 
+        uint64_t OUT_CLASSES = 2;
         if (CmdLineOpt::type_net == CmdLineOpt::TYPE::DENSENET) {
-            if (CmdLineOpt::params[0] == 121) {
-                DenseNet121 net(2);
-                Trainer<DenseNet121> trainer(net);
-            }
-            else if (CmdLineOpt::params[0] == 169) {
-                DenseNet169 net(2);
-                Trainer<DenseNet169> trainer(net);
-            }
-            else if (CmdLineOpt::params[0] == 201) {
-                DenseNet201 net(2);
-                Trainer<DenseNet201> trainer(net);
-            }
-            else if (CmdLineOpt::params[0] == 161) {
-                DenseNet161 net(2);
-                Trainer<DenseNet161> trainer(net);
-            }
+            _DenseNet NET(
+                2,
+                CmdLineOpt::growth_rate,
+                CmdLineOpt::params,
+                64,
+                CmdLineOpt::drop_rate
+            );
+
+            Trainer<_DenseNet> TRAINER(NET);
 
         }
         else if (CmdLineOpt::type_net == CmdLineOpt::TYPE::OTRANET) {
@@ -56,14 +66,11 @@ int main(int argc, const char* argv[]) {
 
             Trainer<OtraNet> TRAINER(NET);
         }
-        else if (CmdLineOpt::type_net == CmdLineOpt::TYPE::PIRAMIDAL) {
-            //_Dense2 NET(
-            //    CmdLineOpt::params,
-            //    CmdLineOpt::drop_rate
-            //);
-            //VGG11 NET(2);
-            //Trainer<VGG11> TRAINER(NET);
-        }
+
+        //else if (CmdLineOpt::type_net == CmdLineOpt::TYPE::PIRAMIDAL) {
+        //    //VGG11 NET;
+        //    //Trainer<VGG11> TRAINER(NET);
+        //}
         return 0;
     }
     catch (std::exception e) {

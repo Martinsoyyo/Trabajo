@@ -1,7 +1,7 @@
 #pragma once
 
 #include "pch.h"
-#include "_DenseNet.h"
+#include "_DenseNet.hpp"
 
         using Options = torch::nn::Conv2dOptions;
 

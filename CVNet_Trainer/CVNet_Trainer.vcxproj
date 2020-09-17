@@ -175,7 +175,8 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="Trainer.h" />
     <ClInclude Include="VGG.hpp" />
-    <ClInclude Include="_DenseNet.h" />
+    <ClInclude Include="_DenseNet.hpp" />
+    <ClInclude Include="_VGG.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Readme.md" />

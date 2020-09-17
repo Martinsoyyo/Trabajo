@@ -2,20 +2,20 @@
 #include "cmdlineopt.h"
 
 namespace CmdLineOpt {
-    int  epoch                  = 10;
-    int  batch_size             = 32;
-    int overwrite              = 1;
-    int batch_norm             = 1;
+    size_t  epoch               = 10;
+    size_t  batch_size          = 32;
+    size_t overwrite            = 1;
+    size_t batch_norm           = 1;
     bool cpu                    = false;
     bool verbose                = false;
     float percent_to_train      = 0.75f;
     float drop_rate             = 0.145f;
     float learning_rate         = 0.0001f;
 
-    int type_net;
+    size_t type_net;
     std::string net_name;
-    std::vector<int> params;
-    uint32_t growth_rate        = 12;
+    std::vector<size_t> params;
+    uint64_t growth_rate        = 12;
     
     std::string dataset_path    = "";
     std::string dataset_prefix  = "";
@@ -35,19 +35,19 @@ namespace CmdLineOpt {
                 .add_options()
                 ("h,help", "Print help")
                 ("CPU", "Force CPU.", cxxopts::value<bool>(cpu))
-                ("b,batch_size", "Numero de imagenes que entrena de manera simultanea. [BATCH SIZE]", cxxopts::value<int>(batch_size))
+                ("b,batch_size", "Numero de imagenes que entrena de manera simultanea. [BATCH SIZE]", cxxopts::value<size_t>(batch_size))
                 ("p,path", "Direccion donde se encuentran las IMAGENES", cxxopts::value<std::string>(dataset_path))
                 ("prefix", "Prefijo para los nombres de los archivos de dataset '*.tensor' (ej. 'PREFIJO_TRAIN_IMAGES.tensor'", cxxopts::value<std::string>(dataset_prefix))
                 ("v,verbose", "Informacion detallada mientras se ejecuta.", cxxopts::value<bool>(verbose))
-                ("e,epoch", "Numero de pasadas por el Lote de entrenamiento.", cxxopts::value<int>(epoch))
+                ("e,epoch", "Numero de pasadas por el Lote de entrenamiento.", cxxopts::value<size_t>(epoch))
                 ("t,train", "% del DATASET que se usa para entrenamiento.", cxxopts::value<float>(percent_to_train))
-                ("o,overwrite", "carga el modelo de la RED si lo encuentra.", cxxopts::value<int>(overwrite))       
+                ("o,overwrite", "carga el modelo de la RED si lo encuentra.", cxxopts::value<size_t>(overwrite))
                 ("l,learning_rate", "Learning Rate.", cxxopts::value<float>(learning_rate))
-                ("g,growth_rate", "Cantidad de capas que sa van agregando en cada etapa. <DENSENET>", cxxopts::value<uint32_t>(growth_rate))
-                ("params", "Parametros de la RED.", cxxopts::value< std::vector<int>>(params))
+                ("g,growth_rate", "Cantidad de capas que sa van agregando en cada etapa. <DENSENET>", cxxopts::value<size_t>(growth_rate))
+                ("params", "Parametros de la RED.", cxxopts::value< std::vector<size_t>>(params))
                 ("d,drop_rate", "DropRate %", cxxopts::value<float>(drop_rate))
                 ("use", "Que tipo de RED uso.", cxxopts::value<std::string>(net_name))
-                ("batch_norm", "batch_norm.", cxxopts::value<int>(batch_norm))
+                ("batch_norm", "batch_norm.", cxxopts::value<size_t>(batch_norm))
 
                 ;
 

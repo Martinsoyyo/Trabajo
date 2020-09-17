@@ -53,10 +53,13 @@
     <ClInclude Include="VGG.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="_DenseNet.h">
+    <ClInclude Include="Arenero.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Arenero.h">
+    <ClInclude Include="_DenseNet.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="_VGG.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
